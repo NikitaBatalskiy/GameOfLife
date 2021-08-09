@@ -14,6 +14,14 @@ public class BoardController {
     this.board = board;
   }
 
+  public Board getBoard() {
+    return board;
+  }
+
+  public void setBoard(Board board) {
+    this.board = board;
+  }
+
   public void printBoard() {
     System.out.println(board.toString());
   }
@@ -29,8 +37,8 @@ public class BoardController {
     count += getStatusOfPoint(matrixX + 1, matrixY);
 
     count += getStatusOfPoint(matrixX - 1, matrixY + 1);
-    count += getStatusOfPoint( matrixX, matrixY + 1);
-    count += getStatusOfPoint( matrixX + 1, matrixY + 1);
+    count += getStatusOfPoint(matrixX, matrixY + 1);
+    count += getStatusOfPoint(matrixX + 1, matrixY + 1);
 
     return count;
   }
@@ -58,7 +66,9 @@ public class BoardController {
     Point newPoint;
     for (Point point : board.getPoints()) {
       int aliveNeighbours = countAliveNeighbours(point.getPositionX(), point.getPositionY());
-      newPoint = new Point(point.getPositionX(), point.getPositionY(), isPointAlive(aliveNeighbours, point));
+      newPoint =
+          new Point(
+              point.getPositionX(), point.getPositionY(), isPointAlive(aliveNeighbours, point));
       newPoints.add(newPoint);
     }
     board.setPoints(newPoints);
@@ -70,13 +80,12 @@ public class BoardController {
     }
     if (aliveNeighbours == 2 || aliveNeighbours == 3) {
       if (point.isAlive()) return true;
-      else
-        return aliveNeighbours == 3;
+      else return aliveNeighbours == 3;
     }
     return false;
   }
 
-  public int getCountOfAlivePointsInBoard(){
+  public int getCountOfAlivePointsInBoard() {
     return (int) board.getPoints().stream().filter(Point::isAlive).count();
   }
 }

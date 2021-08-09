@@ -13,42 +13,49 @@ public class PointsController {
     this.board = board;
   }
 
-  public List<Point> setRandomList( int countOfAlivePoints){
+  public List<Point> setRandomList(int countOfAlivePoints) {
     List<Point> randomList = new ArrayList<>();
     Point point;
     int count = 0;
     int width = board.getWidth();
     int height = board.getHeight();
+
+    for (int matrixY = 0; matrixY < height; matrixY++) {
+      for (int matrixX = 0; matrixX < width; matrixX++) {
+        point = new Point(matrixX, matrixY, false);
+        randomList.add(point);
+      }
+    }
+
     while (count < countOfAlivePoints) {
-      for (int matrixY = 0; matrixY < height; matrixY++) {
-        for (int matrixX = 0; matrixX < width; matrixX++) {
-          int random = (int) (1 + Math.random() * 2);
-          if (random == 1) {
-            point = new Point(matrixX, matrixY, false);
-          } else {
-            point = new Point(matrixX, matrixY, true);
-          }
-          randomList.add(point);
-          count++;
-        }
+      int random = (int) (Math.random() * (width * height));
+      if (!randomList.get(random).isAlive()) {
+        randomList.get(random).setAlive(true);
+        count++;
       }
     }
     return randomList;
   }
 
   public void setAlivePoint(Board board, int matrixX, int matrixY) {
-    board.getPoints().forEach(point -> {
-      if (point.getPositionX() == matrixX && point.getPositionY() == matrixY) {
-        point.setAlive(true);
-      }
-    });
+    board
+        .getPoints()
+        .forEach(
+            point -> {
+              if (point.getPositionX() == matrixX && point.getPositionY() == matrixY) {
+                point.setAlive(true);
+              }
+            });
   }
 
   public void setDeadPoint(Board board, int matrixX, int matrixY) {
-    board.getPoints().forEach(point -> {
-      if (point.getPositionX() == matrixX && point.getPositionY() == matrixY) {
-        point.setAlive(false);
-      }
-    });
+    board
+        .getPoints()
+        .forEach(
+            point -> {
+              if (point.getPositionX() == matrixX && point.getPositionY() == matrixY) {
+                point.setAlive(false);
+              }
+            });
   }
 }
